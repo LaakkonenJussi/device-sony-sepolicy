@@ -1,0 +1,222 @@
+#==============================================================================
+# Jolla systemd "reference" domain  
+#==============================================================================
+
+#===== systemd =====
+
+type systemd, domain;
+type systemd_exec, exec_type, file_type;
+
+init_daemon_domain(systemd)
+
+
+#===== systemd_logind =====
+
+type systemd_logind, domain;
+type systemd_logind_exec, exec_type, file_type;
+
+init_daemon_domain(systemd_logind)
+
+
+#===== systemd_tmpfiles =====
+
+type systemd_tmpfiles, domain;
+type systemd_tmpfiles_exec, exec_type, file_type;
+
+init_daemon_domain(systemd_tmpfiles)
+
+
+#==== systemd_notify ====
+
+type systemd_notify, domain;
+type systemd_notify_exec, exec_type, file_type;
+
+init_daemon_domain(systemd_notify)
+
+#============================= Defines ========================================
+
+define(`rw_dir_perms', `{ open read getattr lock search ioctl add_name remove_name write }')
+define(`write_chr_file_perms',`{ getattr open write append lock ioctl }')
+define(`search_dir_perms',`{ getattr search open }')
+define(`list_dir_perms',`{ getattr search open read lock ioctl }')
+define(`read_inherited_file_perms',`{ getattr read ioctl lock }')
+define(`read_file_perms',`{ open read_inherited_file_perms }')
+define(`relabel_dir_perms',`{ getattr relabelfrom relabelto }')
+define(`relabel_file_perms',`{ getattr relabelfrom relabelto }')
+define(`relabel_lnk_file_perms',`{ getattr relabelfrom relabelto }')
+define(`read_lnk_file_perms',`{ getattr read }')
+define(`manage_dir_perms',`{ create open getattr setattr read write link unlink rename search add_name remove_name reparent rmdir lock ioctl }')
+define(`manage_sock_file_perms',`{ create open getattr setattr read write rename link unlink ioctl lock append }')
+define(`manage_lnk_file_perms',`{ create getattr setattr read write append rename link unlink ioctl lock }')
+define(`relabelfrom_dir_perms',`{ getattr relabelfrom }')
+
+define(`create_socket_perms', `{ create rw_socket_perms }')
+
+#
+#============================== systemd =======================================
+#
+    # give mkdir access to /sys/fs/cgroup/memory/noswapping    
+allow systemd cgroup:dir manage_dir_perms;
+allow systemd cgroup:dir relabelfrom_dir_perms;
+allow systemd cgroup:file { ioctl read write create getattr setattr lock relabelfrom relabelto };
+
+allow systemd cgroup:dir create_dir_perms;
+allow systemd self:capability { chown kill dac_read_search dac_override fowner sys_tty_config sys_admin };
+
+#
+#========================== systemd_logind ====================================
+#
+# Allow dbus connection
+allow systemd_logind self:dbus { acquire_svc send_msg };
+
+allow systemd_logind self:capability { fowner sys_tty_config chown dac_override };
+allow systemd_logind self:process getcap;
+
+allow systemd_logind self:capability { chown kill dac_read_search dac_override fowner sys_tty_config sys_admin };
+#allow systemd_logind self:capability2 block_suspend;
+allow systemd_logind self:process getcap;
+#allow systemd_logind self:netlink_kobject_uevent_socket create_socket_perms;
+allow systemd_logind self:unix_dgram_socket create_socket_perms;
+
+    # /sys/fs/cgroup/systemd/user
+    # fs_manage_cgroup_dirs(systemd_logind_t)
+    #manage_dirs_pattern($1, cgroup_t, cgroup_t)
+allow systemd_logind cgroup:dir rw_dir_perms;
+allow systemd_logind cgroup:dir manage_dir_perms;
+    #fs_search_tmpfs($1)
+allow systemd_logind tmpfs_t:dir search_dir_perms;
+    #dev_search_sysfs($1)
+allow systemd_logind sysfs:dir search_dir_perms;
+allow systemd_logind sysfs:dir search_dir_perms;
+
+#
+#========================= systemd_tepfiles ===================================
+#
+allow systemd_tmpfiles self:capability { chown dac_read_search dac_override fsetid fowner mknod sys_admin };
+allow systemd_tmpfiles self:process { setfscreate };
+allow systemd_tmpfiles self:unix_dgram_socket create_socket_perms;
+
+    # give mkdir access to /sys/fs/cgroup/memory/noswapping
+allow systemd_tmpfiles cgroup:dir manage_dir_perms;
+allow systemd_tmpfiles cgroup:dir relabelfrom_dir_perms;
+allow systemd_tmpfiles cgroup:file { ioctl read write create getattr setattr lock relabelfrom relabelto };
+
+    ###kernel_read_network_state(systemd_tmpfiles_t)
+allow systemd_tmpfiles { proc proc_net }:dir search_dir_perms;
+allow systemd_tmpfiles proc_net:file read_file_perms;
+allow systemd_tmpfiles proc_net:lnk_file read_lnk_file_perms;
+allow systemd_tmpfiles proc_net:lnk_file read_lnk_file_perms;
+allow systemd_tmpfiles proc_net:dir list_dir_perms;
+
+    ###kernel_request_load_module(systemd_tmpfiles_t)
+allow systemd_tmpfiles kernel:system module_request;
+
+    ###kernel_relabelto_usermodehelper(systemd_tmpfiles_t)
+    ##	Do not audit attempts to search the usermodehelper
+allow systemd_tmpfiles usermodehelper:file relabelto;
+
+    ### dev_write_kmsg(systemd_tmpfiles_t)
+allow systemd_tmpfiles device:dir search_dir_perms;
+allow systemd_tmpfiles kmsg_device:chr_file write_chr_file_perms;
+
+    ### dev_rw_sysfs(systemd_tmpfiles_t)	
+    ##	Allow caller to modify hardware state information.
+allow systemd_tmpfiles device:dir search_dir_perms;
+allow systemd_tmpfiles device:file rw_file_perms;
+allow systemd_tmpfiles sysfs:lnk_file read_lnk_file_perms;
+
+    ###dev_relabel_all_sysfs(systemd_tmpfiles_t)
+allow systemd_tmpfiles sysfs:dir search_dir_perms;
+allow systemd_tmpfiles sysfs:dir relabel_dir_perms;
+allow systemd_tmpfiles sysfs:file relabel_file_perms;
+allow systemd_tmpfiles sysfs:lnk_file relabel_lnk_file_perms;
+
+    # no typeattribute cpu_online -> need to create one ?
+    ###dev_relabel_cpu_online(systemd_tmpfiles_t)
+    # allow systemd_tmpfiles cpu_online:file relabel_file_perms;
+    ###dev_read_cpu_online(systemd_tmpfiles_t)
+
+    # what is attribute device_node in android ? Is attribute node_type same ? 
+    ###dev_manage_all_dev_nodes(systemd_tmpfiles_t)
+allow systemd_tmpfiles device:dir manage_dir_perms;
+allow systemd_tmpfiles device:sock_file manage_sock_file_perms;
+allow systemd_tmpfiles device:lnk_file manage_lnk_file_perms;
+    #allow systemd_tmpfiles device_node:chr_file manage_chr_file_perms;
+    #allow systemd_tmpfiles device_node:blk_file manage_blk_file_perms;
+allow systemd_tmpfiles device:dir relabel_dir_perms;
+    #allow systemd_tmpfiles device_node:chr_file relabel_chr_file_perms;
+    #allow systemd_tmpfiles device_node:blk_file relabel_blk_file_perms;
+
+    #dev_relabel_all_dev_nodes(systemd_tmpfiles_t)
+    #domain_obj_id_change_exemption(systemd_tmpfiles_t)
+
+    # systemd-tmpfiles relabel /run/lock and creates /run/lock/lockdev    
+    # Create, read, write, and delete tmpfs directories
+
+    #fs_manage_tmpfs_dirs(systemd_tmpfiles_t)
+allow systemd_tmpfiles tmpfs:dir manage_dir_perms;    
+
+
+    #fs_relabel_tmpfs_dirs(systemd_tmpfiles_t)
+allow systemd_tmpfiles tmpfs:dir search_dir_perms;
+allow systemd_tmpfiles tmpfs:dir relabel_dir_perms;
+
+    #fs_list_all(systemd_tmpfiles_t)
+    # List all directories with a filesystem type.
+allow systemd_tmpfiles fs_type:dir list_dir_perms;
+
+    #files_manage_non_auth_files(systemd_tmpfiles_t)
+    #files_relabel_non_auth_files(systemd_tmpfiles_t)
+    #files_list_lost_found(systemd_tmpfiles_t)
+    #files_map_system_db_files(systemd_tmpfiles_t)
+
+    #mls_file_read_all_levels(systemd_tmpfiles_t)
+    #mls_file_write_all_levels(systemd_tmpfiles_t)
+    #mls_file_upgrade(systemd_tmpfiles_t)
+
+    #selinux_get_enforce_mode(systemd_tmpfiles_t)
+    #selinux_setcheckreqprot(systemd_tmpfiles_t)
+
+    #auth_manage_faillog(systemd_tmpfiles_t)
+    #auth_relabel_faillog(systemd_tmpfiles_t)
+    #auth_manage_var_auth(systemd_tmpfiles_t)
+    #auth_manage_login_records(systemd_tmpfiles_t)
+    #auth_relabel_var_auth_dirs(systemd_tmpfiles_t)
+    #auth_relabel_login_records(systemd_tmpfiles_t)
+    #auth_setattr_login_records(systemd_tmpfiles_t)
+
+    #init_dgram_send(systemd_tmpfiles_t)
+    #init_rw_stream_sockets(systemd_tmpfiles_t)
+
+    #logging_create_devlog_dev(systemd_tmpfiles_t)
+    #logging_send_syslog_msg(systemd_tmpfiles_t)
+    #logging_setattr_all_log_dirs(systemd_tmpfiles_t)
+    #logging_relabel_all_log_dirs(systemd_tmpfiles_t)
+
+    #miscfiles_filetrans_named_content(systemd_tmpfiles_t)
+    #miscfiles_manage_man_pages(systemd_tmpfiles_t)
+    #miscfiles_relabel_man_pages(systemd_tmpfiles_t)
+    #miscfiles_delete_man_pages(systemd_tmpfiles_t)
+
+
+#=========================== systemd_notify ==================================
+
+define(`rw_inherited_fifo_file_perms',`{ getattr read write append ioctl lock }')
+define(`rw_fifo_file_perms',`{ open rw_inherited_fifo_file_perms }')
+# Permissions for creating and using stream sockets. 
+define(`create_stream_socket_perms', `{ create_socket_perms listen accept }')
+
+
+allow systemd_notify self:capability chown;
+allow systemd_notify self:process { fork setfscreate setsockcreate };
+
+allow systemd_notify self:fifo_file rw_fifo_file_perms;
+allow systemd_notify self:unix_stream_socket create_stream_socket_perms;
+allow systemd_notify self:unix_dgram_socket create_socket_perms;
+
+    #dev_write_kmsg(systemd_notify_t)
+    #domain_use_interactive_fds(systemd_notify_t)
+    #fs_getattr_cgroup_files(systemd_notify_t)
+    #init_rw_stream_sockets(systemd_notify_t)
+
+

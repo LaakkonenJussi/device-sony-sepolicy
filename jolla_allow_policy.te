@@ -1,0 +1,589 @@
+type jolla_allow_policy, domain;
+type jolla_allow_policy_exec, exec_type, file_type;
+
+
+#============= kernel ==============
+allow kernel cgroup:dir { add_name create remove_name rmdir setattr };
+allow kernel cgroup:file setattr;
+allow kernel device:blk_file { getattr ioctl open read };
+allow kernel device:chr_file { append ioctl open read write };
+allow kernel device:file { create getattr open write };
+allow kernel device:lnk_file create;
+allow kernel device:sock_file { create setattr write };
+allow kernel node:tcp_socket node_bind;
+allow kernel persist_file:dir setattr;
+allow kernel port:tcp_socket name_bind;
+allow kernel proc:file { setattr write };
+allow kernel proc_net:file { setattr write };
+allow kernel proc_security:file { open write };
+allow kernel proc_sysrq:file setattr;
+allow kernel pstorefs:dir search;
+allow kernel pstorefs:file setattr;
+allow kernel qtaguid_proc:file setattr;
+#==== sys_admin added
+allow kernel self:capability { audit_control chown fowner fsetid net_bind_service net_raw setpcap sys_ptrace sys_rawio sys_time sys_tty_config sys_admin };
+allow kernel self:capability2 { block_suspend syslog };
+allow kernel self:netlink_audit_socket create;
+allow kernel self:netlink_kobject_uevent_socket { create getattr };
+allow kernel self:process { setfscreate setsockcreate };
+allow kernel self:security compute_create;
+allow kernel self:system syslog_mod;
+allow kernel self:tcp_socket create;
+allow kernel self:udp_socket { create ioctl };
+allow kernel selinuxfs:file setattr;
+allow kernel sysfs:file { setattr write };
+allow kernel tmpfs:lnk_file create;
+allow kernel tmpfs:sock_file { create getattr setattr unlink write };
+allow kernel unlabeled:dir { add_name getattr mounton open read remove_name setattr write };
+allow kernel unlabeled:file { append create execute execute_no_trans getattr ioctl link lock open read rename setattr unlink write };
+allow kernel unlabeled:lnk_file { getattr read };
+allow kernel vfat:file { getattr open };
+
+#==== added
+allow kernel functionfs:dir search;
+allow kernel vfat:dir search;
+
+#==== added after enfrocing 1 from journal log
+allow kernel debugfs:filesystem unmount;
+allow kernel device:file unlink;
+allow kernel devpts:chr_file { read setattr write };
+allow kernel fuse:filesystem mount;
+allow kernel mlog_qmi_exec:file { execute execute_no_trans getattr open read };
+allow kernel node:udp_socket node_bind;
+allow kernel per_mgr_exec:file getattr;
+allow kernel port:udp_socket name_bind;
+allow kernel rmt_storage_exec:file { execute execute_no_trans getattr open read };
+allow kernel sct_exec:file { execute execute_no_trans getattr open read };
+allow kernel self:capability { audit_write ipc_lock kill };
+allow kernel self:netlink_route_socket create;
+allow kernel self:process { execmem execstack setexec };
+allow kernel self:security read_policy;
+allow kernel self:sem { associate read unix_read unix_write write };
+allow kernel self:shm { unix_read unix_write };
+allow kernel self:system syslog_read;
+
+#==== allowed ?
+allow kernel self:unix_dgram_socket ioctl;
+allow kernel shell:process { sigkill signal };
+allow kernel ta_qmi_exec:file { execute execute_no_trans getattr open read };
+allow kernel tad:process { noatsecure rlimitinh siginh transition };
+allow kernel tad:unix_stream_socket { bind connectto create };
+allow kernel tad_exec:file { execute getattr open read };
+allow kernel tee_exec:file { execute execute_no_trans getattr open read };
+allow kernel tmpfs:dir mounton;
+allow kernel tmpfs:filesystem mount;
+allow kernel unlabeled:dir rmdir;
+allow kernel unlabeled:lnk_file unlink;
+
+#===== added after second test
+allow kernel cgroup:filesystem unmount;
+
+allow kernel device:blk_file { lock write };
+allow kernel device:chr_file { execute unlink };
+allow kernel device:dir mounton;
+
+allow kernel device:file ioctl;
+allow kernel device:filesystem unmount;
+allow kernel device:lnk_file { rename unlink write };
+allow kernel device:sock_file { getattr unlink };
+allow kernel devpts:chr_file { getattr ioctl open };
+
+allow kernel devpts:filesystem unmount;
+allow kernel functionfs:filesystem unmount;
+allow kernel fuse:dir search;
+allow kernel fuse:file { getattr open };
+
+allow kernel fuse:filesystem unmount;
+allow kernel fuse:lnk_file read;
+allow kernel irsc_util_exec:file { execute execute_no_trans getattr open read };
+allow kernel labeledfs:filesystem remount;
+
+allow kernel netmgrd_exec:file getattr;
+allow kernel per_mgr_exec:file { execute execute_no_trans open read };
+allow kernel persist_file:dir getattr;
+allow kernel proc:filesystem { mount unmount };
+allow kernel proc_bluetooth_writable:file setattr;
+allow kernel proc_kernel_sched:file { open write };
+allow kernel pstorefs:filesystem unmount;
+allow kernel qmuxd_exec:file getattr;
+
+allow kernel self:capability sys_chroot;
+allow kernel self:netlink_route_socket getattr;
+allow kernel self:netlink_selinux_socket create;
+allow kernel self:packet_socket create;
+allow kernel self:process ptrace;
+allow kernel self:rawip_socket { create ioctl };
+allow kernel self:security compute_av;
+allow kernel self:sem create;
+allow kernel self:shm { associate create getattr read write };
+allow kernel self:tcp_socket { getattr read write };
+allow kernel self:udp_socket { getattr read };
+
+allow kernel selinuxfs:filesystem unmount;
+allow kernel sensors_exec:file { execute execute_no_trans getattr open read };
+allow kernel shell:dir search;
+allow kernel shell:file { getattr open read };
+
+allow kernel shell:process { signull transition };
+allow kernel sysfs:dir mounton;
+allow kernel sysfs:file append;
+allow kernel sysfs:filesystem unmount;
+allow kernel system_file:dir mounton;
+
+allow kernel tad:dir search;
+allow kernel tad:file { getattr open read };
+allow kernel tad:process { signal signull };
+
+allow kernel tmpfs:dir mounton;
+allow kernel tmpfs:fifo_file unlink;
+allow kernel tmpfs:file execute;
+allow kernel tmpfs:lnk_file unlink;
+allow kernel tmpfs:sock_file read;
+
+allow kernel unlabeled:dir rmdir;
+allow kernel unlabeled:dir create;
+allow kernel unlabeled:filesystem { getattr unmount };
+
+allow kernel unlabeled:lnk_file unlink;
+allow kernel unlabeled:lnk_file create;
+allow kernel unlabeled:sock_file { create getattr unlink };
+allow kernel vfat:filesystem unmount;
+
+#============= tad ==============
+allow tad device:chr_file { open read write };
+allow tad device:file { getattr open };
+allow tad device:blk_file { ioctl open read write };
+allow tad device:sock_file write;
+allow tad kernel:process sigchld;
+allow tad kernel:unix_dgram_socket sendto;
+
+#----------------------------------------------
+#-------- added after first labeling ----------
+#----------------------------------------------
+
+#============= cpuctl_device ==============
+allow cpuctl_device device:filesystem associate;
+
+#============= fscklogs ==============
+allow fscklogs device:filesystem associate;
+
+#============= kernel ==============
+allow kernel adb_data_file:dir { open read relabelto };
+allow kernel apk_private_data_file:dir { open read relabelto };
+allow kernel asec_apk_file:dir { create setattr };
+allow kernel asec_image_file:dir { open read relabelto };
+allow kernel backup_data_file:dir { open read relabelto };
+allow kernel brcm_ldisc_sysfs:lnk_file relabelto;
+allow kernel cache_file:dir { relabelto setattr };
+allow kernel cpuctl_device:dir { add_name create setattr write };
+allow kernel cpuctl_device:file { create open write };
+allow kernel device:dir relabelfrom;
+allow kernel device:file relabelfrom;
+allow kernel fscklogs:dir { create setattr };
+allow kernel logd_socket:sock_file { create setattr };
+allow kernel logdr_socket:sock_file { create setattr };
+allow kernel logdw_socket:sock_file { create setattr };
+allow kernel mnt_expand_file:dir { create setattr };
+allow kernel mnt_media_rw_file:dir { create setattr };
+allow kernel mnt_user_file:dir { add_name create setattr write };
+allow kernel persist_display_file:dir { getattr open read };
+allow kernel persist_drm_file:dir { getattr open read };
+allow kernel persist_drm_file:file getattr;
+allow kernel persist_file:dir { open read };
+allow kernel persist_file:file getattr;
+allow kernel properties_device:file relabelto;
+allow kernel property_socket:sock_file { create setattr write };
+allow kernel rfs_file:dir { getattr open read };
+allow kernel rfs_file:file getattr;
+allow kernel rfs_shared_hlos_file:dir { getattr open read };
+allow kernel sensors_persist_file:dir { getattr open read };
+allow kernel sensors_persist_file:file getattr;
+allow kernel socket_device:dir { add_name relabelto write };
+allow kernel storage_file:dir { add_name create setattr write };
+allow kernel storage_file:lnk_file create;
+allow kernel sysfs:dir relabelfrom;
+allow kernel sysfs:file relabelfrom;
+allow kernel sysfs:lnk_file relabelfrom;
+allow kernel sysfs_addrsetup:file relabelto;
+allow kernel sysfs_bluetooth_writable:dir { open read relabelto search };
+allow kernel sysfs_bluetooth_writable:file { open read relabelto };
+allow kernel sysfs_bluetooth_writable:lnk_file relabelto;
+allow kernel sysfs_devices_system_cpu:dir relabelto;
+allow kernel sysfs_devices_system_cpu:file { relabelto setattr };
+allow kernel sysfs_devices_system_cpu:lnk_file relabelto;
+allow kernel sysfs_fingerprintd_writable:file relabelto;
+allow kernel sysfs_graphics:file relabelto;
+allow kernel sysfs_mpdecision:file relabelto;
+allow kernel sysfs_performance:dir { open read relabelto search };
+allow kernel sysfs_performance:file relabelto;
+allow kernel sysfs_power_management:file relabelto;
+allow kernel sysfs_rmt_storage:dir { open read relabelto search };
+allow kernel sysfs_rmt_storage:file relabelto;
+allow kernel sysfs_rqstats:dir { open read relabelto search };
+allow kernel sysfs_smd_open_timeout:file relabelto;
+allow kernel sysfs_socinfo:dir relabelto;
+allow kernel sysfs_socinfo:file relabelto;
+allow kernel sysfs_socinfo:lnk_file relabelto;
+allow kernel sysfs_ssr:dir relabelto;
+allow kernel sysfs_ssr:file relabelto;
+allow kernel sysfs_ssr:lnk_file relabelto;
+allow kernel sysfs_thermal:dir relabelto;
+allow kernel sysfs_thermal:file relabelto;
+allow kernel sysfs_thermal:lnk_file relabelto;
+allow kernel sysfs_uio:dir { open read relabelto search };
+allow kernel sysfs_uio:lnk_file relabelto;
+allow kernel sysfs_wake_lock:file { open relabelto write };
+allow kernel system_data_file:dir { open read relabelto };
+allow kernel unlabeled:dir relabelfrom;
+allow kernel unlabeled:file relabelfrom;
+allow kernel usb_device:dir { create setattr };
+allow kernel usermodehelper:file relabelto;
+allow kernel vold_socket:sock_file { create setattr };
+
+#============= logd_socket ==============
+allow logd_socket device:filesystem associate;
+
+#============= logdr_socket ==============
+allow logdr_socket device:filesystem associate;
+
+#============= logdw_socket ==============
+allow logdw_socket device:filesystem associate;
+
+#============= properties_device ==============
+allow properties_device device:filesystem associate;
+
+#============= property_socket ==============
+allow property_socket device:filesystem associate;
+
+#============= socket_device ==============
+allow socket_device device:filesystem associate;
+
+#============= usb_device ==============
+allow usb_device device:filesystem associate;
+
+#============= vold_socket ==============
+allow vold_socket device:filesystem associate;
+
+#----------------------------------------------
+#second boot after relableing
+#----------------------------------------------
+
+allow kernel adb_data_file:dir setattr;
+allow kernel adb_keys_file:dir setattr;
+allow kernel apk_data_file:dir setattr;
+allow kernel apk_private_data_file:dir setattr;
+allow kernel asec_image_file:dir setattr;
+allow kernel backup_data_file:dir setattr;
+allow kernel bluetooth_data_file:dir { search setattr };
+allow kernel bluetooth_data_file:file { getattr open read };
+allow kernel bootchart_data_file:dir setattr;
+allow kernel dalvikcache_data_file:dir setattr;
+allow kernel dalvikcache_profiles_data_file:dir setattr;
+allow kernel dhcp_data_file:dir setattr;
+allow kernel drm_data_file:dir setattr;
+allow kernel gatekeeper_data_file:dir setattr;
+allow kernel heapdump_data_file:dir setattr;
+allow kernel keychain_data_file:dir setattr;
+allow kernel keystore_data_file:dir setattr;
+allow kernel media_data_file:dir setattr;
+allow kernel media_rw_data_file:dir setattr;
+allow kernel misc_user_data_file:dir setattr;
+allow kernel net_data_file:dir setattr;
+allow kernel perfprofd_data_file:dir setattr;
+allow kernel property_data_file:dir setattr;
+allow kernel radio_data_file:dir setattr;
+allow kernel resourcecache_data_file:dir setattr;
+allow kernel security_file:dir setattr;
+allow kernel shared_relro_file:dir setattr;
+allow kernel shell_data_file:dir setattr;
+allow kernel system_data_file:dir setattr;
+allow kernel systemkeys_data_file:dir setattr;
+allow kernel tombstone_data_file:dir setattr;
+allow kernel vold_data_file:dir setattr;
+allow kernel vpn_data_file:dir setattr;
+allow kernel wifi_data_file:dir setattr;
+allow kernel wpa_socket:dir setattr;
+allow kernel zoneinfo_data_file:dir setattr;
+
+#------------------------------------------------
+#from journal for policy 10
+#------------------------------------------------
+#============= installd_socket ==============
+allow installd_socket device:filesystem associate;
+
+#============= kernel ==============
+allow kernel audio_data_file:dir setattr;
+allow kernel bluetooth_data_file:file write;
+allow kernel camera_data_file:dir setattr;
+allow kernel data_qsee_file:dir setattr;
+allow kernel default_prop:property_service set;
+allow kernel dts_data_file:dir setattr;
+allow kernel fm_data_file:dir setattr;
+allow kernel installd_socket:sock_file { create setattr unlink };
+allow kernel logd_socket:sock_file unlink;
+allow kernel logdr_socket:sock_file unlink;
+allow kernel net_data_file:dir read;
+allow kernel netmgrd_socket:dir { add_name write };
+allow kernel netmgrd_socket:sock_file { create setattr write };
+allow kernel nfc_data_file:dir setattr;
+allow kernel property_data_file:dir { add_name open read remove_name write };
+allow kernel property_data_file:file { create getattr open read rename unlink write };
+allow kernel qmuxd_socket:dir { add_name write };
+allow kernel qmuxd_socket:sock_file setattr;
+allow kernel radio_data_file:dir { add_name open read remove_name write };
+allow kernel radio_data_file:file { create getattr lock read unlink };
+allow kernel rild_debug_socket:sock_file { create setattr };
+allow kernel rild_socket:sock_file { create setattr write };
+allow kernel sap_uim_socket:sock_file { create setattr };
+allow kernel sensors_data_file:dir setattr;
+allow kernel socket_device:dir { create remove_name setattr };
+allow kernel socket_device:sock_file { create getattr setattr write };
+allow kernel sysfs_addrsetup:file { getattr open setattr write };
+allow kernel sysfs_wake_lock:file { getattr setattr };
+allow kernel system_data_file:dir write;
+allow kernel system_prop:property_service set;
+allow kernel tad_socket:sock_file { create setattr };
+allow kernel tee_prop:property_service set;
+
+#============= rild_debug_socket ==============
+allow rild_debug_socket device:filesystem associate;
+
+#============= rild_socket ==============
+allow rild_socket device:filesystem associate;
+
+#============= sap_uim_socket ==============
+allow sap_uim_socket device:filesystem associate;
+
+#============= tad_socket ==============
+allow tad_socket device:filesystem associate;
+
+#=========================================================
+#from journal_enfrocing_boot_policy_11 for policy 11
+#=========================================================
+
+#============= kernel ==============
+allow kernel audio_data_file:dir search;
+allow kernel audio_data_file:file { append getattr open read };
+allow kernel camera_data_file:dir { add_name remove_name write };
+allow kernel camera_data_file:sock_file { create unlink write };
+allow kernel camera_prop:property_service set;
+allow kernel gatekeeper_data_file:dir search;
+allow kernel install_data_file:file { open read };
+allow kernel labeledfs:filesystem unmount;
+allow kernel logd_socket:sock_file write;
+
+allow kernel logdw_socket:sock_file unlink;
+allow kernel media_rw_data_file:dir getattr;
+allow kernel misc_user_data_file:dir getattr;
+allow kernel mm-qcamerad_exec:file { execute execute_no_trans getattr open read };
+allow kernel netmgrd_exec:file { execute execute_no_trans open read };
+allow kernel netmgrd_socket:dir { create setattr };
+allow kernel nfc_data_file:dir search;
+allow kernel property_data_file:dir search;
+allow kernel qmuxd_exec:file { execute execute_no_trans open read };
+allow kernel qmuxd_socket:dir { create setattr };
+allow kernel radio_data_file:dir search;
+allow kernel radio_data_file:file { open setattr write };
+allow kernel radio_prop:property_service set;
+allow kernel rild_debug_socket:sock_file unlink;
+allow kernel rild_socket:sock_file unlink;
+allow kernel sap_uim_socket:sock_file unlink;
+
+allow kernel sensors_data_file:dir { getattr search };
+allow kernel shell:process { noatsecure rlimitinh siginh };
+allow kernel sysfs_bluetooth_writable:file setattr;
+allow kernel sysfs_devices_system_cpu:file write;
+allow kernel sysfs_fingerprintd_writable:file { open setattr write };
+allow kernel sysfs_graphics:file setattr;
+allow kernel sysfs_power_management:file { open write };
+allow kernel sysfs_rmt_storage:file { getattr open read };
+allow kernel sysfs_thermal:file write;
+allow kernel sysfs_uio:lnk_file read;
+
+allow kernel sysfs_wake_lock:file getattr;
+allow kernel sysfs_wake_lock:file append;
+allow kernel tad_socket:sock_file { unlink write };
+allow kernel timekeep_data_file:dir setattr;
+allow kernel tmpfs:fifo_file create;
+allow kernel tmpfs:filesystem unmount;
+allow kernel tombstone_data_file:dir search;
+allow kernel vold_socket:sock_file unlink;
+
+#============= netmgrd_socket ==============
+allow netmgrd_socket device:filesystem associate;
+
+#============= qmuxd_socket ==============
+allow qmuxd_socket device:filesystem associate;
+
+#============= shell ==============
+allow shell device:chr_file { read write };
+allow shell unlabeled:file entrypoint;
+
+#============= tad ==============
+allow tad unlabeled:dir search;
+
+#=========================================================
+#from journal_enfrocing_boot_policy_12 for policy 12
+#=========================================================
+
+#============= kernel ==============
+
+allow kernel bootchart_data_file:dir search;
+allow kernel camera_data_file:dir search;
+
+allow kernel cpuctl_device:dir search;
+allow kernel media_rw_data_file:dir search;
+allow kernel mnt_user_file:dir search;
+allow kernel perfprofd_data_file:dir { open read };
+allow kernel qmuxd_socket:dir { remove_name search };
+allow kernel qmuxd_socket:sock_file { create getattr unlink write };
+allow kernel sensors_data_file:dir { open read };
+allow kernel sensors_data_file:file { append getattr open read write };
+allow kernel shell:dir getattr;
+allow kernel shell:lnk_file read;
+allow kernel storage_file:dir search;
+allow kernel sysfs_bluetooth_writable:file getattr;
+
+allow kernel sysfs_bluetooth_writable:lnk_file read;
+allow kernel sysfs_performance:file { open read write };
+allow kernel sysfs_wake_lock:file read;
+allow kernel tad:lnk_file read;
+allow kernel tad:process sigkill;
+
+allow kernel tmpfs:fifo_file { open read write };
+allow kernel tmpfs:filesystem remount;
+allow kernel tombstone_data_file:dir write;
+allow kernel wifi_data_file:dir search;
+
+#============= shell ==============
+
+allow shell device:chr_file { getattr ioctl open };
+allow shell kernel:process sigchld;
+allow shell unlabeled:file { execute execute_no_trans getattr open read };
+allow shell unlabeled:lnk_file read;
+
+#============================================================
+#from journal after enforcing=1 boot (policy 13)
+#============================================================
+
+#============= kernel ==============
+allow kernel misc_user_data_file:dir search;
+allow kernel tombstone_data_file:dir add_name;
+
+#============= shell ==============
+allow shell unlabeled:dir search;
+
+#============================================================
+#from journal after enforcing=1 boot (policy 14, 15, 16, 17, 18)
+#============================================================
+
+allow kernel tombstone_data_file:file { getattr setattr create open read write };
+
+allow kernel logdr_socket:sock_file write;
+allow kernel tmpfs:chr_file create;
+
+allow kernel devpts:filesystem remount;
+
+#===================================
+#For allowing connmand ioctlcmd 8910 (fixed in policy 19)
+#===================================
+  
+allow kernel kernel:unix_dgram_socket 0x8910;
+
+#==============================================================
+#from logcat (policy 19)
+#==============================================================
+
+#============= kernel ==============
+allow kernel adb_data_file:dir getattr;
+allow kernel apk_data_file:dir { open read };
+allow kernel apk_private_data_file:dir getattr;
+allow kernel appops_service:service_manager add;
+allow kernel asec_image_file:dir getattr;
+allow kernel backup_data_file:dir getattr;
+allow kernel batterystats_service:service_manager add;
+allow kernel brcm_ldisc_sysfs:lnk_file getattr;
+allow kernel cameraproxy_service:service_manager add;
+allow kernel dalvikcache_data_file:dir { open read };
+allow kernel dalvikcache_profiles_data_file:dir getattr;
+allow kernel debugfs:file getattr;
+allow kernel default_android_service:service_manager { add find };
+allow kernel drmserver_service:service_manager add;
+allow kernel fingerprintd_service:service_manager add;
+allow kernel fuse:dir { open read };
+allow kernel fuse:lnk_file getattr;
+allow kernel gatekeeper_service:service_manager add;
+allow kernel mediaserver_service:service_manager { add find };
+allow kernel mnt_expand_file:dir { getattr open read };
+allow kernel mnt_media_rw_file:dir { getattr open read };
+allow kernel mnt_user_file:dir { getattr open read };
+allow kernel per_mgr_service:service_manager { add find };
+allow kernel permission_service:service_manager add;
+allow kernel port:tcp_socket name_connect;
+allow kernel proc_bluetooth_writable:file getattr;
+allow kernel proc_drop_caches:file getattr;
+allow kernel proc_kernel_sched:file getattr;
+allow kernel proc_security:file getattr;
+allow kernel proc_sysrq:file getattr;
+allow kernel proc_uid_cputime_removeuid:file getattr;
+allow kernel proc_uid_cputime_showstat:file getattr;
+allow kernel processinfo_service:service_manager add;
+allow kernel pstorefs:dir { open read };
+allow kernel pstorefs:file getattr;
+allow kernel qtaguid_proc:file getattr;
+allow kernel resourcecache_data_file:dir { getattr open read };
+allow kernel security_file:dir { open read };
+allow kernel self:rawip_socket getattr;
+allow kernel self:tcp_socket ioctl;
+allow kernel sensorservice_service:service_manager add;
+allow kernel shell:dir { open read };
+allow kernel shell:lnk_file getattr;
+allow kernel storage_file:dir { getattr open read };
+allow kernel storage_file:lnk_file getattr;
+allow kernel surfaceflinger_service:service_manager { add find };
+allow kernel sysfs_bluetooth_writable:lnk_file getattr;
+allow kernel sysfs_fingerprintd_writable:file getattr;
+allow kernel sysfs_graphics:file getattr;
+allow kernel sysfs_mpdecision:file getattr;
+allow kernel sysfs_performance:file getattr;
+allow kernel sysfs_power_management:file getattr;
+allow kernel sysfs_smd_open_timeout:file getattr;
+allow kernel sysfs_uio:lnk_file getattr;
+allow kernel tad:dir { getattr open read };
+allow kernel tad:lnk_file getattr;
+allow kernel timekeep_data_file:dir { getattr open read };
+allow kernel tmpfs:fifo_file getattr;
+allow kernel unlabeled:dir rename;
+allow kernel usermodehelper:dir { open read search };
+allow kernel usermodehelper:file getattr;
+allow kernel vfat:dir { open read };
+
+#==========================================================
+#For ril erros from journal + logcat. Enforcing=1 (Policy 20)
+#==========================================================
+
+allow kernel netmgrd_socket:dir search;
+
+#==========================================================
+#For systemd testing. Enforcing=0 (Policy 21)
+#==========================================================
+
+allow kernel self:unix_stream_socket sendto;
+
+#==========================================================
+#For systemd testing Enfrocing=0 (Policy 22)
+#==========================================================
+
+allow kernel net_radio_prop:property_service set;
+allow kernel self:capability setfcap;
+allow kernel sysfs:dir write;
+allow kernel unlabeled:dir ioctl;
+allow kernel unlabeled:lnk_file { rename setattr };
+
+#=========================================================
+#MARKO testing systemd
+#=========================================================
+
+###allow systemd_logind_t self:dbus { acquire_svc send_msg };
+
+
