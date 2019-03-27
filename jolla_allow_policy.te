@@ -587,3 +587,681 @@ allow kernel unlabeled:lnk_file { rename setattr };
 ###allow systemd_logind_t self:dbus { acquire_svc send_msg };
 
 
+#========================================================
+# From audit.log after installing selinux enabled systemd
+# with init hack.
+# =======================================================
+
+#============= kernel ==============
+allow kernel adb_keys_file:dir getattr;
+allow kernel addrsetup_exec:file { execute execute_no_trans open read };
+allow kernel audio_data_file:dir getattr;
+allow kernel bluetooth_data_file:dir getattr;
+allow kernel bootchart_data_file:dir { getattr open read relabelto };
+allow kernel camera_data_file:dir getattr;
+allow kernel dalvikcache_profiles_data_file:dir { open read };
+allow kernel data_qsee_file:dir getattr;
+allow kernel dhcp_data_file:dir getattr;
+allow kernel drm_data_file:dir getattr;
+allow kernel dts_data_file:dir getattr;
+allow kernel fm_data_file:dir getattr;
+allow kernel gatekeeper_data_file:dir getattr;
+allow kernel install_data_file:file getattr;
+allow kernel keychain_data_file:dir getattr;
+allow kernel keystore_data_file:dir getattr;
+allow kernel logd_exec:file { execute execute_no_trans getattr open read };
+allow kernel media_data_file:dir { getattr open read };
+allow kernel media_rw_data_file:dir { open read relabelto };
+allow kernel net_data_file:dir getattr;
+allow kernel nfc_data_file:dir { getattr open read relabelto };
+allow kernel perfprofd_data_file:dir getattr;
+allow kernel property_data_file:dir { getattr relabelto };
+allow kernel property_data_file:file relabelto;
+allow kernel radio_data_file:dir getattr;
+allow kernel resourcecache_data_file:dir relabelto;
+allow kernel shared_relro_file:dir getattr;
+allow kernel sysfs_lowmemorykiller:file relabelto;
+allow kernel system_data_file:lnk_file relabelto;
+allow kernel system_file:dir setattr;
+allow kernel systemkeys_data_file:dir getattr;
+allow kernel timekeep_data_file:dir relabelto;
+allow kernel tombstone_data_file:dir { getattr open read relabelto };
+allow kernel tombstone_data_file:file relabelto;
+allow kernel tzdatacheck_exec:file { execute execute_no_trans getattr open read };
+allow kernel unlabeled:lnk_file relabelfrom;
+allow kernel vold_data_file:dir getattr;
+allow kernel vold_exec:file { execute execute_no_trans getattr open read };
+allow kernel vpn_data_file:dir getattr;
+allow kernel wifi_data_file:dir { getattr open read };
+allow kernel wpa_socket:dir { getattr open read };
+
+#============= kernel ==============
+allow kernel adb_keys_file:dir { open read };
+allow kernel addrsetup_exec:file getattr;
+allow kernel adsprpcd_exec:file { execute execute_no_trans getattr open read };
+allow kernel adsprpcd_file:dir { getattr open read };
+allow kernel audio_data_file:dir { open read };
+allow kernel audio_device:chr_file { getattr ioctl open read write };
+allow kernel bluetooth_data_file:dir { open read };
+allow kernel bootanim_exec:file getattr;
+allow kernel brcm_uim_exec:file getattr;
+allow kernel camera_data_file:dir { open read };
+allow kernel camera_data_file:sock_file getattr;
+allow kernel clatd_exec:file getattr;
+allow kernel console_device:chr_file { getattr ioctl open write };
+allow kernel cpuctl_device:dir { getattr open read };
+allow kernel cpuctl_device:file getattr;
+allow kernel data_qsee_file:dir { open read };
+allow kernel debuggerd_exec:file { execute execute_no_trans getattr open read };
+allow kernel device:chr_file relabelfrom;
+allow kernel device_latency:chr_file getattr;
+allow kernel dhcp_data_file:dir { open read };
+allow kernel drmserver_exec:file { execute execute_no_trans getattr open read };
+allow kernel dts_data_file:dir { open read };
+allow kernel dumpstate_exec:file getattr;
+allow kernel fingerprintd_exec:file getattr;
+allow kernel fm_data_file:dir { open read };
+allow kernel fscklogs:dir { getattr open read };
+allow kernel fuse_device:chr_file getattr;
+allow kernel gatekeeper_data_file:dir { open read };
+allow kernel gatekeeper_data_file:file getattr;
+allow kernel gatekeeperd_exec:file { execute execute_no_trans getattr open read };
+allow kernel gpu_device:chr_file { getattr ioctl read write };
+allow kernel hostapd_exec:file getattr;
+allow kernel input_device:chr_file { getattr ioctl };
+allow kernel installd_exec:file { execute execute_no_trans getattr open read };
+allow kernel installd_socket:sock_file getattr;
+allow kernel keychain_data_file:dir { open read };
+allow kernel keystore_data_file:dir { open read };
+allow kernel keystore_exec:file getattr;
+allow kernel kmsg_device:chr_file { getattr open read write };
+allow kernel logcat_exec:file getattr;
+allow kernel logd_socket:sock_file getattr;
+allow kernel logdr_socket:sock_file getattr;
+allow kernel logdw_socket:sock_file getattr;
+allow kernel mdnsd_exec:file getattr;
+allow kernel mediaserver_exec:file getattr;
+allow kernel misc_user_data_file:dir { open read };
+allow kernel msm_irqbalanced_exec:file getattr;
+allow kernel mtp_exec:file getattr;
+allow kernel net_data_file:dir open;
+allow kernel netmgrd_socket:dir { getattr open read };
+allow kernel perfprofd_exec:file getattr;
+allow kernel pmsg_device:chr_file getattr;
+allow kernel property_socket:sock_file getattr;
+allow kernel qdsp_device:chr_file getattr;
+allow kernel qmuxd_socket:dir getattr;
+allow kernel ramdump_device:chr_file relabelto;
+allow kernel rild_debug_socket:sock_file getattr;
+allow kernel rild_exec:file { execute execute_no_trans getattr open read };
+allow kernel rild_socket:sock_file getattr;
+allow kernel rootfs:dir { add_name remove_name write };
+allow kernel rootfs:file relabelto;
+allow kernel rootfs:lnk_file { create relabelto rename setattr unlink };
+allow kernel rtc_device:chr_file { getattr ioctl };
+allow kernel runas_exec:file getattr;
+allow kernel sap_uim_socket:sock_file getattr;
+allow kernel sdcardd_exec:file getattr;
+allow kernel self:netlink_audit_socket getattr;
+allow kernel self:netlink_selinux_socket getattr;
+allow kernel self:packet_socket getattr;
+allow kernel sensors_device:chr_file getattr;
+allow kernel sensors_socket:sock_file { getattr relabelto write };
+allow kernel servicemanager_exec:file { execute execute_no_trans getattr open read };
+allow kernel shared_relro_file:dir { open read };
+allow kernel shell_exec:file { execute execute_no_trans getattr open read };
+allow kernel smd_device:chr_file getattr;
+allow kernel socket_device:sock_file relabelfrom;
+allow kernel subsys_modem_device:chr_file getattr;
+allow kernel surfaceflinger_exec:file getattr;
+allow kernel sysfs_fingerprintd_writable:file read;
+allow kernel sysfs_lowmemorykiller:file { getattr setattr };
+allow kernel systemkeys_data_file:dir { open read };
+allow kernel tad:unix_dgram_socket getattr;
+allow kernel tad:unix_stream_socket getattr;
+allow kernel tad_socket:sock_file getattr;
+allow kernel tee_device:chr_file getattr;
+allow kernel thermanager_exec:file { execute execute_no_trans getattr open read };
+allow kernel timekeep_exec:file getattr;
+allow kernel toolbox_exec:file { execute execute_no_trans getattr open read };
+allow kernel tty_device:chr_file { getattr ioctl open read write };
+allow kernel uio_device:chr_file getattr;
+allow kernel uncrypt_exec:file getattr;
+allow kernel usb_device:dir { getattr open read };
+allow kernel vcs_device:chr_file relabelto;
+allow kernel video_device:chr_file { getattr relabelto };
+allow kernel vold_data_file:dir { open read };
+allow kernel vold_socket:sock_file getattr;
+allow kernel vpn_data_file:dir { open read };
+allow kernel watchdog_device:file { getattr ioctl open write };
+allow kernel wpa_exec:file getattr;
+allow kernel zygote_exec:file getattr;
+
+#============= ramdump_device ==============
+allow ramdump_device device:filesystem associate;
+
+#============= rootfs ==============
+allow rootfs labeledfs:filesystem associate;
+
+#============= sensors_socket ==============
+allow sensors_socket device:filesystem associate;
+
+#============= vcs_device ==============
+allow vcs_device device:filesystem associate;
+
+#============= video_device ==============
+allow video_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel netmgrd_socket:sock_file getattr;
+
+#============= block_device ==============
+allow block_device device:filesystem associate;
+
+#============= graphics_device ==============
+allow graphics_device device:filesystem associate;
+
+#============= loop_device ==============
+allow loop_device device:filesystem associate;
+
+#============= ram_device ==============
+allow ram_device device:filesystem associate;
+
+#============= recovery_block_device ==============
+allow recovery_block_device device:filesystem associate;
+
+#============= rpmb_device ==============
+allow rpmb_device device:filesystem associate;
+
+#============= ssd_device ==============
+allow ssd_device device:filesystem associate;
+
+#============= swap_block_device ==============
+allow swap_block_device device:filesystem associate;
+
+#============= tad_block_device ==============
+allow tad_block_device device:filesystem associate;
+
+#============= userdata_block_device ==============
+allow userdata_block_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel unlabeled:netlink_kobject_uevent_socket { read write };
+allow kernel unlabeled:unix_dgram_socket { getattr read sendto };
+allow kernel unlabeled:unix_stream_socket { accept connectto getattr getopt shutdown write };
+
+#============= dm_device ==============
+allow dm_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel adsprpcd_file:file { getattr open read };
+allow kernel block_device:lnk_file { relabelfrom relabelto write };
+allow kernel device:blk_file { relabelfrom relabelto };
+allow kernel device:lnk_file { relabelfrom relabelto };
+allow kernel dm_device:lnk_file { relabelto write };
+allow kernel fingerprintd_exec:file { execute execute_no_trans open read };
+allow kernel loop_device:lnk_file { relabelto write };
+allow kernel perfprofd_exec:file { execute execute_no_trans open read };
+allow kernel ram_device:lnk_file { relabelto write };
+allow kernel root_block_device:lnk_file { relabelto write };
+allow kernel rpmb_device:lnk_file { relabelfrom relabelto write };
+allow kernel swap_block_device:lnk_file { relabelto write };
+allow kernel tad_block_device:lnk_file { relabelto write };
+allow kernel timekeep_exec:file { execute execute_no_trans open read };
+allow kernel trim_area_partition_device:lnk_file { relabelto write };
+allow kernel video_device:chr_file { ioctl open read };
+
+#============= root_block_device ==============
+allow root_block_device device:filesystem associate;
+
+#============= trim_area_partition_device ==============
+allow trim_area_partition_device device:filesystem associate;
+
+#============= adsprpcd_device ==============
+allow adsprpcd_device device:filesystem associate;
+
+#============= device ==============
+allow device devpts:filesystem associate;
+
+#============= kernel ==============
+allow kernel adsprpcd_device:lnk_file { relabelfrom relabelto write };
+allow kernel audio_device:dir read;
+allow kernel block_device:dir { create setattr };
+allow kernel camera_data_file:file { create getattr open write };
+allow kernel cgroup:filesystem mount;
+allow kernel device:dir relabelto;
+allow kernel device_latency:chr_file { open write };
+allow kernel devpts:dir relabelfrom;
+allow kernel devpts:filesystem mount;
+allow kernel dm_device:lnk_file relabelfrom;
+allow kernel gpu_device:chr_file open;
+allow kernel graphics_device:dir { add_name write };
+allow kernel graphics_device:lnk_file create;
+allow kernel loop_device:lnk_file relabelfrom;
+allow kernel modem_efs_partition_device:lnk_file { relabelfrom relabelto write };
+allow kernel qdsp_device:chr_file { ioctl open read };
+allow kernel ram_device:lnk_file relabelfrom;
+allow kernel root_block_device:lnk_file relabelfrom;
+allow kernel self:packet_socket read;
+allow kernel self:process { dyntransition setcurrent };
+allow kernel self:udp_socket write;
+allow kernel sensors_device:chr_file { ioctl open read };
+allow kernel smd_device:chr_file { ioctl open read write };
+allow kernel ssd_device:lnk_file { relabelfrom relabelto write };
+allow kernel swap_block_device:lnk_file relabelfrom;
+allow kernel tad_block_device:lnk_file relabelfrom;
+allow kernel tee_device:chr_file { ioctl open read write };
+allow kernel tmpfs:dir relabelfrom;
+allow kernel trim_area_partition_device:lnk_file relabelfrom;
+allow kernel uio_device:chr_file { open read write };
+allow kernel video_device:dir setattr;
+allow kernel wpa:unix_dgram_socket { ioctl read write };
+
+#============= modem_efs_partition_device ==============
+allow modem_efs_partition_device device:filesystem associate;
+
+#============= audio_device ==============
+allow audio_device device:filesystem associate;
+
+#============= boot_block_device ==============
+allow boot_block_device device:filesystem associate;
+
+#============= cache_block_device ==============
+allow cache_block_device device:filesystem associate;
+
+#============= input_device ==============
+allow input_device device:filesystem associate;
+
+#============= ipa_dev ==============
+allow ipa_dev device:filesystem associate;
+
+#============= usbaccessory_device ==============
+allow usbaccessory_device device:filesystem associate;
+
+#============= watchdog_device ==============
+allow watchdog_device device:filesystem associate;
+
+
+#============= kernel ==============
+allow kernel audio_device:chr_file { create relabelfrom relabelto setattr };
+allow kernel audio_device:dir { add_name create write };
+allow kernel audio_device:lnk_file create;
+allow kernel boot_block_device:lnk_file { relabelfrom relabelto write };
+allow kernel cache_block_device:lnk_file { relabelfrom relabelto write };
+allow kernel device:chr_file relabelto;
+allow kernel fuse_device:chr_file { open read write };
+allow kernel input_device:chr_file { relabelto write };
+allow kernel input_device:dir { add_name getattr remove_name write };
+allow kernel input_device:lnk_file { create rename unlink };
+allow kernel ipa_dev:chr_file relabelto;
+allow kernel mtp_device:chr_file relabelto;
+allow kernel pstorefs:filesystem mount;
+allow kernel qdsp_device:chr_file relabelto;
+allow kernel ramdump_device:chr_file write;
+allow kernel recovery_block_device:lnk_file { relabelfrom relabelto write };
+allow kernel subsys_modem_device:chr_file { open read };
+allow kernel usbaccessory_device:chr_file relabelto;
+allow kernel userdata_block_device:lnk_file { relabelfrom relabelto write };
+allow kernel video_device:chr_file write;
+allow kernel watchdog_device:file relabelto;
+
+#============= mtp_device ==============
+allow mtp_device device:filesystem associate;
+
+#============= qdsp_device ==============
+allow qdsp_device device:filesystem associate;
+
+#============= qtaguid_device ==============
+allow qtaguid_device device:filesystem associate;
+
+#============= subsys_modem_device ==============
+allow subsys_modem_device device:filesystem associate;
+
+#============= device_latency ==============
+allow device_latency device:filesystem associate;
+
+#============= binder_device ==============
+allow binder_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel audio_device:dir relabelto;
+allow kernel binder_device:chr_file relabelto;
+allow kernel device_latency:chr_file relabelto;
+allow kernel qtaguid_device:chr_file relabelto;
+allow kernel sensors_device:chr_file relabelto;
+allow kernel subsys_modem_device:chr_file relabelto;
+
+#============= sensors_device ==============
+allow sensors_device device:filesystem associate;
+
+#============= ashmem_device ==============
+allow ashmem_device device:filesystem associate;
+
+#============= avtimer_device ==============
+allow avtimer_device device:filesystem associate;
+
+#============= fm_radio_device ==============
+allow fm_radio_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel ashmem_device:chr_file relabelto;
+allow kernel avtimer_device:chr_file relabelto;
+allow kernel fm_radio_device:chr_file relabelto;
+allow kernel rootfs:file write;
+allow kernel uhid_device:chr_file relabelto;
+
+#============= uhid_device ==============
+allow uhid_device device:filesystem associate;
+
+#============= rmnet_device ==============
+allow rmnet_device device:filesystem associate;
+
+#============= rtc_device ==============
+allow rtc_device device:filesystem associate;
+
+#============= uio_device ==============
+allow uio_device device:filesystem associate;
+
+#============= hci_attach_dev ==============
+allow hci_attach_dev device:filesystem associate;
+
+#============= kernel ==============
+allow kernel hci_attach_dev:chr_file relabelto;
+allow kernel rmnet_device:chr_file relabelto;
+
+
+#============= kernel ==============
+allow kernel ppp_device:chr_file relabelto;
+allow kernel qce_device:chr_file relabelto;
+allow kernel rtc_device:chr_file relabelto;
+allow kernel tee_device:chr_file relabelto;
+allow kernel uio_device:chr_file relabelto;
+
+#============= ppp_device ==============
+allow ppp_device device:filesystem associate;
+
+#============= qce_device ==============
+allow qce_device device:filesystem associate;
+
+#============= tee_device ==============
+allow tee_device device:filesystem associate;
+
+#============= diag_device ==============
+allow diag_device device:filesystem associate;
+
+#============= gpu_device ==============
+allow gpu_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel diag_device:chr_file relabelto;
+allow kernel gpu_device:chr_file relabelto;
+allow kernel nfc_device:chr_file relabelto;
+allow kernel smd_device:chr_file relabelto;
+
+#============= nfc_device ==============
+allow nfc_device device:filesystem associate;
+
+#============= smd_device ==============
+allow smd_device device:filesystem associate;
+
+#============= console_device ==============
+allow console_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel console_device:chr_file relabelto;
+allow kernel ptmx_device:chr_file relabelto;
+allow kernel rng_device:chr_file relabelto;
+allow kernel rtc_device:chr_file read;
+allow kernel voice_device:chr_file relabelto;
+
+#============= ptmx_device ==============
+allow ptmx_device device:filesystem associate;
+
+#============= rng_device ==============
+allow rng_device device:filesystem associate;
+
+#============= voice_device ==============
+allow voice_device device:filesystem associate;
+
+#============= fuse_device ==============
+allow fuse_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel fuse_device:chr_file relabelto;
+allow kernel kmsg_device:chr_file relabelto;
+allow kernel owntty_device:chr_file relabelto;
+allow kernel tty_device:chr_file relabelto;
+
+#============= kmsg_device ==============
+allow kmsg_device device:filesystem associate;
+
+#============= owntty_device ==============
+allow owntty_device device:filesystem associate;
+
+#============= tty_device ==============
+allow tty_device device:filesystem associate;
+
+#============= urandom_device ==============
+allow urandom_device device:filesystem associate;
+
+#============= zero_device ==============
+allow zero_device device:filesystem associate;
+
+#============= full_device ==============
+allow full_device device:filesystem associate;
+
+#============= null_device ==============
+allow null_device device:filesystem associate;
+
+#============= random_device ==============
+allow random_device device:filesystem associate;
+
+#============= ion_device ==============
+allow ion_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel full_device:chr_file relabelto;
+allow kernel ion_device:chr_file relabelto;
+allow kernel null_device:chr_file relabelto;
+allow kernel random_device:chr_file relabelto;
+allow kernel urandom_device:chr_file relabelto;
+allow kernel zero_device:chr_file relabelto;
+
+#============= kernel ==============
+allow kernel debugfs:filesystem mount;
+allow kernel log_device:lnk_file create;
+allow kernel pmsg_device:chr_file relabelto;
+allow kernel rootfs:dir mounton;
+allow kernel thermal_device:chr_file relabelto;
+
+#============= log_device ==============
+allow log_device device:filesystem associate;
+
+#============= pmsg_device ==============
+allow pmsg_device device:filesystem associate;
+
+#============= thermal_device ==============
+allow thermal_device device:filesystem associate;
+
+#============= kernel ==============
+allow kernel functionfs:filesystem mount;
+allow kernel fuse_device:chr_file setattr;
+allow kernel proc:filesystem remount;
+allow kernel rtc_device:chr_file { relabelfrom setattr write };
+allow kernel sysfs:filesystem remount;
+allow kernel uio_device:chr_file setattr;
+
+#============= kernel ==============
+allow kernel gpu_device:chr_file setattr;
+allow kernel input_device:chr_file { open read };
+allow kernel ramdump_device:chr_file { getattr relabelfrom };
+allow kernel uio_device:chr_file relabelfrom;
+allow kernel video_device:chr_file { relabelfrom setattr };
+
+#============= kernel ==============
+allow kernel avtimer_device:chr_file getattr;
+allow kernel full_device:chr_file getattr;
+allow kernel functionfs:dir read;
+allow kernel hci_attach_dev:chr_file getattr;
+allow kernel ipa_dev:chr_file getattr;
+allow kernel rmnet_device:chr_file getattr;
+allow kernel rng_device:chr_file getattr;
+allow kernel thermal_device:chr_file getattr;
+
+#============= kernel ==============
+allow kernel audio_device:dir getattr;
+allow kernel block_device:dir { add_name write };
+allow kernel block_device:lnk_file create;
+allow kernel device:blk_file setattr;
+allow kernel fm_radio_device:chr_file getattr;
+allow kernel functionfs:dir open;
+allow kernel functionfs:file getattr;
+allow kernel gpu_device:chr_file relabelfrom;
+allow kernel mtp_device:chr_file getattr;
+allow kernel nfc_device:chr_file getattr;
+allow kernel ppp_device:chr_file getattr;
+allow kernel qce_device:chr_file getattr;
+allow kernel subsys_modem_device:chr_file { relabelfrom setattr write };
+
+#============= kernel ==============
+allow kernel audio_device:dir open;
+allow kernel block_device:dir getattr;
+allow kernel qtaguid_device:chr_file getattr;
+allow kernel root_block_device:lnk_file create;
+allow kernel uhid_device:chr_file getattr;
+allow kernel usbaccessory_device:chr_file getattr;
+allow kernel vcs_device:chr_file getattr;
+allow kernel voice_device:chr_file getattr;
+
+#============= kernel ==============
+allow kernel adsprpcd_device:lnk_file create;
+allow kernel console_device:chr_file { relabelfrom setattr };
+allow kernel hci_attach_dev:chr_file { relabelfrom setattr write };
+allow kernel modem_efs_partition_device:lnk_file create;
+allow kernel tad_block_device:lnk_file create;
+
+# Long devmode usb establishment after these, investigate
+#============= kernel ==============
+allow kernel boot_block_device:lnk_file create;
+allow kernel cache_block_device:lnk_file create;
+allow kernel input_device:chr_file { relabelfrom setattr };
+allow kernel input_device:dir create;
+allow kernel ssd_device:lnk_file create;
+allow kernel trim_area_partition_device:lnk_file create;
+allow kernel userdata_block_device:lnk_file create;
+
+#============= kernel ==============
+allow kernel avtimer_device:chr_file { relabelfrom setattr write };
+allow kernel labeledfs:filesystem mount;
+allow kernel loop_device:lnk_file create;
+allow kernel recovery_block_device:lnk_file create;
+allow kernel rpmb_device:lnk_file create;
+allow kernel vfat:filesystem mount;
+
+# But usb devmode was restored to normal after these
+#============= kernel ==============
+allow kernel block_device:dir { open read };
+allow kernel diag_device:chr_file { relabelfrom setattr };
+allow kernel graphics_device:dir { create getattr };
+allow kernel qdsp_device:chr_file { relabelfrom setattr write };
+allow kernel ram_device:lnk_file create;
+
+#============= kernel ==============
+allow kernel full_device:chr_file relabelfrom;
+allow kernel ipa_dev:chr_file { relabelfrom setattr write };
+allow kernel kmsg_device:chr_file relabelfrom;
+allow kernel random_device:chr_file relabelfrom;
+allow kernel swap_block_device:lnk_file create;
+allow kernel urandom_device:chr_file relabelfrom;
+
+#============= kernel ==============
+allow kernel ashmem_device:chr_file relabelfrom;
+allow kernel binder_device:chr_file { relabelfrom setattr };
+allow kernel full_device:chr_file write;
+allow kernel null_device:chr_file relabelfrom;
+allow kernel zero_device:chr_file relabelfrom;
+
+#============= kernel ==============
+allow kernel ashmem_device:chr_file setattr;
+allow kernel device_latency:chr_file relabelfrom;
+allow kernel fuse_device:chr_file relabelfrom;
+allow kernel ion_device:chr_file { relabelfrom setattr };
+allow kernel rmnet_device:chr_file { relabelfrom setattr write };
+
+#============= kernel ==============
+allow kernel mtp_device:chr_file { relabelfrom setattr write };
+allow kernel qce_device:chr_file { relabelfrom write };
+allow kernel unlabeled:filesystem mount;
+allow kernel usermodehelper:file { open write };
+
+#============= kernel ==============
+allow kernel nfc_device:chr_file { relabelfrom setattr write };
+allow kernel rng_device:chr_file { relabelfrom write };
+allow kernel uhid_device:chr_file { relabelfrom setattr write };
+allow kernel usbaccessory_device:chr_file { setattr relabelfrom write };
+
+#============= kernel ==============
+allow kernel ppp_device:chr_file { relabelfrom setattr write };
+allow kernel qtaguid_device:chr_file { relabelfrom write };
+
+#============= kernel ==============
+allow kernel pmsg_device:chr_file { relabelfrom setattr };
+allow kernel sensors_device:chr_file relabelfrom;
+allow kernel smd_device:chr_file { relabelfrom setattr };
+allow kernel tee_device:chr_file setattr;
+allow kernel thermal_device:chr_file { relabelfrom write };
+
+#============= kernel ==============
+allow kernel owntty_device:chr_file relabelfrom;
+allow kernel ptmx_device:chr_file relabelfrom;
+allow kernel sensors_device:chr_file write;
+allow kernel tee_device:chr_file relabelfrom;
+allow kernel tty_device:chr_file { relabelfrom setattr };
+allow kernel vcs_device:chr_file { relabelfrom setattr };
+
+#============= kernel ==============
+allow kernel fm_radio_device:chr_file setattr;
+allow kernel vcs_device:chr_file write;
+allow kernel video_device:dir create;
+allow kernel voice_device:chr_file { relabelfrom setattr write };
+
+#============= kernel ==============
+allow kernel dm_device:lnk_file create;
+allow kernel fm_radio_device:chr_file { relabelfrom write };
+allow kernel input_device:dir { open read };
+allow kernel video_device:dir { getattr add_name write };
+
+#============= kernel ==============
+allow kernel audio_device:dir search;
+allow kernel block_device:dir search;
+
+#============= kernel ==============
+allow kernel console_device:chr_file read;
+allow kernel qtaguid_device:chr_file setattr;
+allow kernel rtc_device:chr_file open;
+allow kernel self:security load_policy;
+allow kernel selinuxfs:dir mounton;
+allow kernel selinuxfs:filesystem { mount remount };
+allow kernel unlabeled:tcp_socket { bind create listen setopt };
+allow kernel unlabeled:unix_stream_socket read;
+allow kernel watchdog_device:file read;
+
+#============= unlabeled ==============
+allow unlabeled node:tcp_socket node_bind;
+allow unlabeled port:tcp_socket name_bind;
+
+#============= kernel ==============
+allow kernel adsprpcd_file:dir search;
+allow kernel graphics_device:dir search;
+allow kernel input_device:dir search;
+allow kernel video_device:dir search;
+
+#============= kernel ==============
+allow kernel hci_attach_dev:chr_file { read open ioctl };
+# For creating .autorelabel AND unlinking it
+allow kernel rootfs:file { create unlink };
+
+
+# wpa
+allow wpa_supplicant sockfs:unix_dgram_socket { ioctl read write };
+
