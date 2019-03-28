@@ -1265,3 +1265,9 @@ allow kernel rootfs:file { create unlink };
 # wpa
 allow wpa_supplicant sockfs:unix_dgram_socket { ioctl read write };
 
+#============= kernel ==============
+allow kernel self:dbus send_msg;
+allow kernel system_file:file execute_no_trans;
+
+#============= kernel ==============
+allow kernel self:dbus acquire_svc;
