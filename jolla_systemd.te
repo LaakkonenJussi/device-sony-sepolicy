@@ -73,7 +73,7 @@ allow systemd_logind self:capability { fowner sys_tty_config chown dac_override 
 allow systemd_logind self:process getcap;
 
 allow systemd_logind self:capability { chown kill dac_read_search dac_override fowner sys_tty_config sys_admin };
-#allow systemd_logind self:capability2 block_suspend;
+allow systemd_logind self:capability2 block_suspend;
 allow systemd_logind self:process getcap;
 #allow systemd_logind self:netlink_kobject_uevent_socket create_socket_perms;
 allow systemd_logind self:unix_dgram_socket create_socket_perms;
@@ -219,4 +219,4 @@ allow systemd_notify self:unix_dgram_socket create_socket_perms;
     #fs_getattr_cgroup_files(systemd_notify_t)
     #init_rw_stream_sockets(systemd_notify_t)
 
-
+allow systemd kernel:service { status reload start stop } ;

@@ -584,7 +584,7 @@ allow kernel unlabeled:lnk_file { rename setattr };
 #MARKO testing systemd
 #=========================================================
 
-###allow systemd_logind_t self:dbus { acquire_svc send_msg };
+allow systemd_logind self:dbus { acquire_svc send_msg };
 
 
 #========================================================
@@ -1265,6 +1265,8 @@ allow kernel rootfs:file { create unlink };
 # wpa
 allow wpa_supplicant sockfs:unix_dgram_socket { ioctl read write };
 allow wpa sockfs:unix_dgram_socket { ioctl read write };
+allow wpa_supplicant socket_device:sock_file { ioctl read write };
+allow wpa socket_device:sock_file { ioctl read write };
 
 #============= kernel ==============
 allow kernel self:dbus send_msg;
@@ -1276,4 +1278,24 @@ allow kernel self:dbus acquire_svc;
 # RPM
 #============= kernel ==============
 allow kernel rootfs:file { setattr rename };
+
+#============= tad ==============
+allow tad socket_device:sock_file write;
+allow kernel socket_device:sock_file unlink;
+
+#============= kernel ==============
+allow kernel camera_data_file:file read;
+allow kernel apk_data_file:dir { add_name create remove_name rmdir write };
+allow kernel apk_data_file:file { create rename setattr write unlink };
+allow kernel system_data_file:dir remove_name;
+
+#============= kernel ==============
+allow kernel net_data_file:dir search;
+
+#============= kernel ==============
+allow kernel unlabeled:service { start status stop };
+allow kernel unlabeled:unix_dgram_socket ioctl;
+allow kernel sockfs:unix_dgram_socket ioctl;
+allow kernel tmpfs:service { start status stop};
+allow kernel self:system { start status stop reboot };
 
