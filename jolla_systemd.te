@@ -63,6 +63,8 @@ allow systemd cgroup:file { ioctl read write create getattr setattr lock relabel
 allow systemd cgroup:dir create_dir_perms;
 allow systemd self:capability { chown kill dac_read_search dac_override fowner sys_tty_config sys_admin };
 
+
+allow systemd kernel:service { status reload start stop };
 #
 #========================== systemd_logind ====================================
 #
@@ -87,7 +89,7 @@ allow systemd_logind cgroup:dir manage_dir_perms;
 allow systemd_logind tmpfs_t:dir search_dir_perms;
     #dev_search_sysfs($1)
 allow systemd_logind sysfs:dir search_dir_perms;
-allow systemd_logind sysfs:dir search_dir_perms;
+allow systemd_logind self:dbus { acquire_svc send_msg };
 
 #
 #========================= systemd_tepfiles ===================================
@@ -219,4 +221,3 @@ allow systemd_notify self:unix_dgram_socket create_socket_perms;
     #fs_getattr_cgroup_files(systemd_notify_t)
     #init_rw_stream_sockets(systemd_notify_t)
 
-allow systemd kernel:service { status reload start stop } ;
