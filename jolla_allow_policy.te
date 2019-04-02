@@ -398,6 +398,44 @@ allow kernel zero_device:chr_file { relabelfrom relabelto };
 allow kernel zoneinfo_data_file:dir setattr;
 allow kernel zygote_exec:file getattr;
 
+#============= kernel ==============
+allow kernel adb_keys_file:dir relabelto;
+allow kernel apk_data_file:dir relabelto;
+allow kernel audio_data_file:dir relabelto;
+allow kernel audio_data_file:file relabelto;
+allow kernel bluetooth_data_file:dir relabelto;
+allow kernel bluetooth_data_file:file relabelto;
+allow kernel camera_data_file:dir relabelto;
+allow kernel camera_data_file:sock_file relabelto;
+allow kernel dalvikcache_data_file:dir relabelto;
+allow kernel dalvikcache_profiles_data_file:dir relabelto;
+allow kernel data_qsee_file:dir relabelto;
+allow kernel dhcp_data_file:dir relabelto;
+allow kernel dts_data_file:dir relabelto;
+allow kernel fm_data_file:dir relabelto;
+allow kernel gatekeeper_data_file:dir relabelto;
+allow kernel gatekeeper_data_file:file relabelto;
+allow kernel keychain_data_file:dir relabelto;
+allow kernel keystore_data_file:dir relabelto;
+allow kernel media_data_file:dir relabelto;
+allow kernel misc_user_data_file:dir relabelto;
+allow kernel net_data_file:dir relabelto;
+allow kernel perfprofd_data_file:dir relabelto;
+allow kernel radio_data_file:dir relabelto;
+allow kernel radio_data_file:file relabelto;
+allow kernel security_file:dir relabelto;
+allow kernel sensors_data_file:dir relabelto;
+allow kernel sensors_data_file:file relabelto;
+allow kernel shared_relro_file:dir relabelto;
+allow kernel shell_data_file:dir { open read relabelto };
+allow kernel systemkeys_data_file:dir relabelto;
+allow kernel unlabeled:sock_file relabelfrom;
+allow kernel vold_data_file:dir relabelto;
+allow kernel vpn_data_file:dir relabelto;
+allow kernel wifi_data_file:dir relabelto;
+allow kernel wpa_socket:dir relabelto;
+allow kernel zoneinfo_data_file:dir relabelto;
+
 #================ fs oper ========================
 # Allow fscklogs and rootfs to associate with fs
 #=================================================
